@@ -3,6 +3,7 @@ session_start();
   if(!isset($_SESSION['id'])) {
     header("Location: login.php");
   }
+  echo $_SESSION['username'];
 
  ?>
 
@@ -21,6 +22,8 @@ session_start();
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <button type="" class="btn btn-secondary my-1" id="logout" style="">Se Déconnecter</button>
 
   <title>Demande de pause</title>
 </head>
@@ -111,6 +114,10 @@ session_start();
 
 
  <script>
+
+var nomJs = "<?php echo $_SESSION['username']; ?>" ;
+
+
  function notifyMe(selectedName, text, pause) {
    if (!("Notification" in window)) {
      alert("This browser does not support system notifications");
@@ -136,9 +143,19 @@ session_start();
      setTimeout(notification.close.bind(notification), 30000);
    }
  }
+
+
+
  /* mettre un pop() apres click sur deny
 delete instances.instance3;*/
 $(document).ready(function() {
+
+
+
+  $("#logout").on("click", function(){
+    window.open("logout.php");
+  });
+
 $("body").fadeIn(2000);
   var compteur = 0;
   var arrayAgent = [];
@@ -146,15 +163,24 @@ $("body").fadeIn(2000);
   var souhait = " souhaite prendre une ";
   var retard = " est en retard ! ";
   var totalTimerDiv;
+  selectedName = nomJs;
+
+
   $("#submit").on("click", function() {
 //check mon input text si j'ai enter dequoi
-    if($("#inputBox").val() != ""){
-			selectedName = $("#inputBox").val();
-      $("#inputBox").val("");
-		} else{
-			selectedName = $("#inlineFormCustomSelectPref").children("option:selected").text();
-      $("#inputBox").val("");
-		}
+
+
+
+    // if($("#inputBox").val() != ""){
+		// 	selectedName = $("#inputBox").val();
+    //   $("#inputBox").val("");
+		// } else{
+		// 	selectedName = $("#inlineFormCustomSelectPref").children("option:selected").text();
+    //   $("#inputBox").val("");
+		// }
+
+
+
   //set pause if checkbox is checked or not
   if ($("#customControlInline").prop("checked") == true) {
     pause = " pause de 30 min. ";
@@ -190,7 +216,7 @@ $("body").fadeIn(2000);
                   $(".timerDiv p").eq(i).attr("id", "tester" + i).css("background-color" , "#6fd99b");
               }
               if ($("#customControlInline").prop("checked") == false) {
-                  arrayAgent[i].temps(selectedName, pause, 900000, i);
+                  arrayAgent[i].temps(selectedName, pause, 2000, i);
                   $(".timerDiv p").eq(i).attr("id", "tester" + i).css("background-color" , "#88d7e3");
               }
               $(".modal").modal("hide");
@@ -285,6 +311,9 @@ $("body").fadeIn(2000);
     }, 1000);
   }
 }
+
+
+
 });
 ////////////////////////////////////////////
   </script>
